@@ -6,16 +6,18 @@ scherm.Text = "Reversi";
 scherm.ClientSize = new Size(900, 900);
 
 Button formaat1 = new Button(); scherm.Controls.Add(formaat1);
-formaat1.Location = new Point(50, 20); formaat1.Text = "3x3";
+formaat1.Location = new Point(50, 20); formaat1.Text = "4x4";
 Button formaat2 = new Button(); scherm.Controls.Add(formaat2);
 formaat2.Location = new Point(150, 20); formaat2.Text = "6x6";
 Button formaat3 = new Button(); scherm.Controls.Add(formaat3);
 formaat3.Location = new Point(250, 20); formaat3.Text = "8x8";
+Button formaat4 = new Button(); scherm.Controls.Add(formaat4);
+formaat4.Location = new Point(350, 20); formaat4.Text = "10x10";
 
 Button New = new Button(); scherm.Controls.Add(New);
-New.Location = new Point(350, 20); New.Text = "Nieuw spel";
+New.Location = new Point(450, 20); New.Text = "Nieuw spel";
 Button help = new Button(); scherm.Controls.Add(help);
-help.Location = new Point(350, 50); help.Text = "Help";
+help.Location = new Point(550, 20); help.Text = "Help";
 
 void teken(object sender, PaintEventArgs pea)
 {
@@ -116,7 +118,7 @@ class Board
         Board board = new Board(8);
 
         // Run de game loop
-        PlayGame(board);
+        //PlayGame(board);
 
     }
 

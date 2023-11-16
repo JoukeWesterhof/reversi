@@ -12,3 +12,17 @@ C:\Users\hidde\source\repos\Reversi 2023\Reversi 2023\obj\Debug\net6.0-windows\r
 C:\Users\hidde\source\repos\Reversi 2023\Reversi 2023\obj\Debug\net6.0-windows\Reversi 2023.pdb
 C:\Users\hidde\source\repos\Reversi 2023\Reversi 2023\obj\Debug\net6.0-windows\Reversi 2023.genruntimeconfig.cache
 C:\Users\hidde\source\repos\Reversi 2023\Reversi 2023\obj\Debug\net6.0-windows\ref\Reversi 2023.dll
+C:\Users\hidde\OneDrive\Documenten\GitHub\reversi\Reversi 2023\Reversi 2023\obj\Debug\net6.0-windows\Reversi 2023.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\hidde\OneDrive\Documenten\GitHub\reversi\Reversi 2023\Reversi 2023\obj\Debug\net6.0-windows\Reversi 2023.AssemblyInfoInputs.cache
+C:\Users\hidde\OneDrive\Documenten\GitHub\reversi\Reversi 2023\Reversi 2023\obj\Debug\net6.0-windows\Reversi 2023.AssemblyInfo.cs
+C:\Users\hidde\OneDrive\Documenten\GitHub\reversi\Reversi 2023\Reversi 2023\obj\Debug\net6.0-windows\Reversi 2023.csproj.CoreCompileInputs.cache
+C:\Users\hidde\OneDrive\Documenten\GitHub\reversi\Reversi 2023\Reversi 2023\obj\Debug\net6.0-windows\Reversi 2023.dll
+C:\Users\hidde\OneDrive\Documenten\GitHub\reversi\Reversi 2023\Reversi 2023\obj\Debug\net6.0-windows\refint\Reversi 2023.dll
+C:\Users\hidde\OneDrive\Documenten\GitHub\reversi\Reversi 2023\Reversi 2023\obj\Debug\net6.0-windows\Reversi 2023.pdb
+C:\Users\hidde\OneDrive\Documenten\GitHub\reversi\Reversi 2023\Reversi 2023\bin\Debug\net6.0-windows\Reversi 2023.exe
+C:\Users\hidde\OneDrive\Documenten\GitHub\reversi\Reversi 2023\Reversi 2023\bin\Debug\net6.0-windows\Reversi 2023.deps.json
+C:\Users\hidde\OneDrive\Documenten\GitHub\reversi\Reversi 2023\Reversi 2023\bin\Debug\net6.0-windows\Reversi 2023.runtimeconfig.json
+C:\Users\hidde\OneDrive\Documenten\GitHub\reversi\Reversi 2023\Reversi 2023\bin\Debug\net6.0-windows\Reversi 2023.dll
+C:\Users\hidde\OneDrive\Documenten\GitHub\reversi\Reversi 2023\Reversi 2023\bin\Debug\net6.0-windows\Reversi 2023.pdb
+C:\Users\hidde\OneDrive\Documenten\GitHub\reversi\Reversi 2023\Reversi 2023\obj\Debug\net6.0-windows\Reversi 2023.genruntimeconfig.cache
+C:\Users\hidde\OneDrive\Documenten\GitHub\reversi\Reversi 2023\Reversi 2023\obj\Debug\net6.0-windows\ref\Reversi 2023.dll

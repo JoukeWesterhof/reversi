@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\hidde\\source\\repos\\Reversi 2023\\Reversi 2023\\Reversi 2023.csproj": {}
+    "C:\\Users\\hidde\\OneDrive\\Documenten\\GitHub\\reversi\\Reversi 2023\\Reversi 2023\\Reversi 2023.csproj": {}
   },
   "projects": {
-    "C:\\Users\\hidde\\source\\repos\\Reversi 2023\\Reversi 2023\\Reversi 2023.csproj": {
+    "C:\\Users\\hidde\\OneDrive\\Documenten\\GitHub\\reversi\\Reversi 2023\\Reversi 2023\\Reversi 2023.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\hidde\\source\\repos\\Reversi 2023\\Reversi 2023\\Reversi 2023.csproj",
+        "projectUniqueName": "C:\\Users\\hidde\\OneDrive\\Documenten\\GitHub\\reversi\\Reversi 2023\\Reversi 2023\\Reversi 2023.csproj",
         "projectName": "Reversi 2023",
-        "projectPath": "C:\\Users\\hidde\\source\\repos\\Reversi 2023\\Reversi 2023\\Reversi 2023.csproj",
+        "projectPath": "C:\\Users\\hidde\\OneDrive\\Documenten\\GitHub\\reversi\\Reversi 2023\\Reversi 2023\\Reversi 2023.csproj",
         "packagesPath": "C:\\Users\\hidde\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\hidde\\source\\repos\\Reversi 2023\\Reversi 2023\\obj\\",
+        "outputPath": "C:\\Users\\hidde\\OneDrive\\Documenten\\GitHub\\reversi\\Reversi 2023\\Reversi 2023\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\hidde\\AppData\\Roaming\\NuGet\\NuGet.Config",
