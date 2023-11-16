@@ -1,262 +1,415 @@
 using System;
 using System.Drawing;
 using System.Windows.Forms;
-Form scherm = new Form();
-scherm.Text = "Reversi";
-scherm.ClientSize = new Size(900, 900);
-
-Button formaat1 = new Button(); scherm.Controls.Add(formaat1);
-formaat1.Location = new Point(50, 20); formaat1.Text = "4x4";
-Button formaat2 = new Button(); scherm.Controls.Add(formaat2);
-formaat2.Location = new Point(150, 20); formaat2.Text = "6x6";
-Button formaat3 = new Button(); scherm.Controls.Add(formaat3);
-formaat3.Location = new Point(250, 20); formaat3.Text = "8x8";
-Button formaat4 = new Button(); scherm.Controls.Add(formaat4);
-formaat4.Location = new Point(350, 20); formaat4.Text = "10x10";
-
-Button New = new Button(); scherm.Controls.Add(New);
-New.Location = new Point(450, 20); New.Text = "Nieuw spel";
-Button help = new Button(); scherm.Controls.Add(help);
-help.Location = new Point(550, 20); help.Text = "Help";
-
-void teken(object sender, PaintEventArgs pea)
+public class ReversiGame : Form
 {
-    pea.Graphics.FillEllipse(Brushes.Red, 50, 50, 50, 50);
-    pea.Graphics.FillEllipse(Brushes.Blue, 50, 100, 50, 50);
-}
-scherm.Paint += teken;
+    private Button formaat4x4, formaat6x6, formaat8x8, formaat10x10;
+    private Button NieuwSpelButton, helpButton;
+    private Panel kubus;
+    private Label roodLabel, blauwLabel, aanzetLabel;
 
-Label rood = new Label();
-scherm.Controls.Add(rood);
-rood.Text = "(tel de stenen van rood)";
-rood.Location = new Point(100, 65);
-rood.Size = new Size(200, 20);
-
-Label blauw = new Label();
-scherm.Controls.Add(blauw);
-blauw.Text = "(tel de stenen van blauw)";
-blauw.Location = new Point(100, 115);
-blauw.Size = new Size(200, 20);
-
-Label aanzet = new Label(); scherm.Controls.Add(aanzet);
-aanzet.Location = new Point(50, 160); aanzet.Text = ".....is aan zet";
-
-//kubus
-Label kubus = new Label();
-Bitmap plaatje = new(312, 312);
-kubus.BackColor = Color.White;
-kubus.Image = plaatje;
-Graphics gr = Graphics.FromImage(plaatje);
-kubus.Paint += Board;
-
-scherm.ClientSize = new Size(800, 700);
-kubus.Location = new Point(50, 200);
-kubus.Size = new Size(302, 302);
-scherm.Controls.Add(kubus);
-
-void Board(object o, PaintEventArgs pea)
-{
-    // Maak een nieuw game board aan van 8x8
-    Board board = new Board(8);
-
-    int lijn;
-    bool knop8 = false;
-    bool knop6 = false;
-    bool knop4 = false;
-    int gridsize = 300;
-
-    if (knop8 == true)
+    private int gridsize = 500;
+    private bool grid10x10 = false;
+    private bool grid8x8 = false;
+    private bool grid6x6 = true;
+    private bool grid4x4 = false;
+    private int[,] board;
+    private int aanzet;
+    private bool welhelpen = false;
+    public ReversiGame()
     {
-        gridsize = 400;
+        InitializeComponents();
+        InitializeGame();
+        UpdateGrid();
     }
-    if (knop6 == true)
+    private void InitializeComponents()
     {
-        gridsize = 300;
+        Text = "Reversi";
+        ClientSize = new Size(1000, 1000);
+
+        formaat4x4 = CreateButton("4x4", 50);
+        formaat6x6 = CreateButton("6x6", 150);
+        formaat8x8 = CreateButton("8x8", 250);
+        formaat10x10 = CreateButton("10x10", 350);
+        NieuwSpelButton = CreateButton("Nieuw spel", 450);
+        helpButton = CreateButton("Help", 550);
+        helpButton.Click += (sender, e) => helpuitaan();
+
+        roodLabel = CreateLabel("er zijn nu 2 stenen van rood", 100, 65);
+        blauwLabel = CreateLabel("er zijn nu 2 stenen van blauw", 100, 115);
+        aanzetLabel = CreateLabel(".....is aan zet", 50, 160);
+
+        kubus = new Panel();
+        kubus.BackColor = Color.White;
+        kubus.Location = new Point(50, 200);
+        kubus.Size = new Size(gridsize, gridsize);
+        kubus.Paint += TekenBoard;
+        kubus.Click += Kubus_Click;
+        kubus.MouseClick += Kubus_MouseClick;
+        kubus.TabStop = true;
+        Controls.Add(kubus);
+        NieuwSpelButton.Click += NieuwSpelButton_Click;
+
+        formaat4x4.Click += Formaat4x4_Click;
+        formaat6x6.Click += Formaat6x6_Click;
+        formaat8x8.Click += Formaat8x8_Click;
+        formaat10x10.Click += Formaat10x10_Click;
+
+        Paint += Tekenen;
     }
-    if (knop4 == true)
+    void Tekenen(object sender, PaintEventArgs pea)
     {
-        gridsize = 200;
+        pea.Graphics.FillEllipse(Brushes.Red, 50, 50, 50, 50);
+        pea.Graphics.FillEllipse(Brushes.Blue, 50, 100, 50, 50);
     }
-
-    Pen Blackpen = new Pen(Color.Black, 0);
-    for (lijn = 0; lijn <= gridsize; lijn += 50)
-
+    private Button CreateButton(string text, int x)
     {
-        pea.Graphics.DrawLine(Blackpen, lijn, 0, lijn, gridsize);
-        pea.Graphics.DrawLine(Blackpen, 0, lijn, gridsize, lijn);
+        Button button = new Button();
+        Controls.Add(button);
+        button.Location = new Point(x, 20);
+        button.Text = text;
+        return button;
     }
-
-}
-kubus.Invalidate();
-
-
-kubus.MouseClick += Klik;
-kubus.MouseMove += Beweeg;
-
-Point hier = new Point(0, 0);
-int aantal = 1;
-
-void Beweeg(object o, MouseEventArgs mea)
-{
-    hier = mea.Location;
-    kubus.Invalidate();
-
-}
-
-void Klik(object o, MouseEventArgs mea)
-{
-
-    kubus.Invalidate();
-}
-
-Application.Run(scherm);
-class Board
-{
-    static void Main(string[] args)
+    private Label CreateLabel(string text, int x, int y)
     {
-        // Nieuw bord van 8x8
-        Board board = new Board(8);
-
-        // Run de game loop
-        //PlayGame(board);
-
+        Label label = new Label();
+        Controls.Add(label);
+        label.Text = text;
+        label.Location = new Point(x, y);
+        label.Size = new Size(200, 20);
+        return label;
     }
-
-    private readonly int[,] _board;
-    private readonly int _size;
-
-    public Board(int size)
+    private void Formaat10x10_Click(object sender, EventArgs e)
     {
-        _size = size;
-        _board = new int[size, size];
-
+        grid10x10 = true;
+        grid8x8 = false;
+        grid6x6 = false;
+        grid4x4 = false;
+        UpdateGrid();
+        kubus.Invalidate();
     }
-
-
-    public int this[int row, int col]
+    private void Formaat8x8_Click(object sender, EventArgs e)
     {
-        get => _board[row, col];
-        set => _board[row, col] = value;
+        grid10x10 = false;
+        grid8x8 = true;
+        grid6x6 = false;
+        grid4x4 = false;
+        UpdateGrid();
+        kubus.Invalidate();
     }
-
-    public int Size => _size;
-
-
-    public bool IsValidMove(int row, int col, int player)
+    private void Formaat6x6_Click(object sender, EventArgs e)
     {
-        // Is het vakje al bezet?
-        if (_board[row, col] != 0)
+        grid10x10 = false;
+        grid8x8 = false;
+        grid6x6 = true;
+        grid4x4 = false;
+        UpdateGrid();
+        kubus.Invalidate();
+    }
+    private void Formaat4x4_Click(object sender, EventArgs e)
+    {
+        grid10x10 = false;
+        grid8x8 = false;
+        grid6x6 = false;
+        grid4x4 = true;
+        UpdateGrid();
+        kubus.Invalidate();
+    }
+    private void NieuwSpelButton_Click(object sender, EventArgs e)
+    {
+        InitializeGame();
+        UpdateStatusLabel();
+        UpdatehoeveelLabels();
+        kubus.Invalidate();
+    }
+    private void UpdateGrid()
+    {
+        if (grid10x10)
         {
-            return false;
+            gridsize = 500;
         }
-
-        // Check de 8 omringende cellen voor de tegenstander zn stenen
-        for (int i = -1; i <= 1; i++)
+        else if (grid8x8)
         {
-            for (int j = -1; j <= 1; j++)
+            gridsize = 400;
+        }
+        else if (grid6x6)
+        {
+            gridsize = 300;
+        }
+        else if (grid4x4)
+        {
+            gridsize = 200;
+        }
+        InitializeGame();
+    }
+    private void InitializeGame()
+    {
+
+        board = new int[gridsize / 50, gridsize / 50];
+
+        int mid = board.GetLength(0) / 2;
+        board[mid - 1, mid - 1] = board[mid, mid] = 1;
+        board[mid - 1, mid] = board[mid, mid - 1] = 2;
+        aanzet = 1;
+        UpdateStatusLabel();
+    }
+    private void helpuitaan()
+    {
+        welhelpen = !welhelpen;
+        kubus.Invalidate();
+    }
+    private void TekenBoard(object o, PaintEventArgs pea)
+    {
+        int lijn;
+        Pen Blackpen = new Pen(Color.Black, 0);
+        Brush highlightBrush = new SolidBrush(Color.Yellow);
+
+        for (lijn = 0; lijn <= gridsize; lijn += 50)
+        {
+            pea.Graphics.DrawLine(Blackpen, lijn, 0, lijn, gridsize);
+            pea.Graphics.DrawLine(Blackpen, 0, lijn, gridsize, lijn);
+        }
+        if (welhelpen)
+            for (int i = 0; i < board.GetLength(0); i++)
             {
-                if (i == 0 && j == 0)
+                for (int j = 0; j < board.GetLength(1); j++)
                 {
-                    continue;
+                    if (goeiezet(i * 50, j * 50))
+                    {
+                        pea.Graphics.FillRectangle(highlightBrush, i * 50, j * 50, 50, 50);
+                    }
+                }
+            }
+        for (int i = 0; i < board.GetLength(0); i++)
+        {
+            for (int j = 0; j < board.GetLength(1); j++)
+            {
+                if (board[i, j] == 1)
+                    pea.Graphics.FillEllipse(Brushes.Red, i * 50, j * 50, 50, 50);
+                else if (board[i, j] == 2)
+                    pea.Graphics.FillEllipse(Brushes.Blue, i * 50, j * 50, 50, 50);
+            }
+        }
+    }
+    private void Kubus_Click(object sender, EventArgs e)
+    {
+        MouseEventArgs me = (MouseEventArgs)e;
+        hetspelzet(me.X - 50, me.Y - 200);
+    }
+    private void Kubus_MouseClick(object sender, MouseEventArgs e)
+    {
+        hetspelzet(e.X, e.Y);
+    }
+    private void UpdateStatusLabel()
+    {
+        aanzetLabel.Text = $"{(aanzet == 1 ? "Rood" : "Blauw")} is aan zet";
+    }
+
+    private void hetspelzet(int x, int y)
+    {
+        if (goeiezet(x, y))
+        {
+            int boardX = x / (gridsize / (grid10x10 ? 10 : (grid8x8 ? 8 : (grid6x6 ? 6 : 4))));
+            int boardY = y / (gridsize / (grid10x10 ? 10 : (grid8x8 ? 8 : (grid6x6 ? 6 : 4))));
+
+            zet(boardX, boardY);
+
+            aanzet = (aanzet == 1) ? 2 : 1;
+
+            UpdateStatusLabel();
+            UpdatehoeveelLabels();
+
+            var (gameOver, winner, scoroodifference) = IsGameOver();
+            if (gameOver)
+            {
+                if (winner == "gelijkspel")
+                {
+                    MessageBox.Show("Het is gelijkspel");
+                }
+                else
+                {
+                    MessageBox.Show($"Gefeliciteerd {winner}! Je hebt gewonnen met {scoroodifference} stenen meer dan je tegenstander.");
                 }
 
-                int r = row + i;
-                int c = col + j;
-                if (r >= 0 && r < _size && c >= 0 && c < _size && _board[r, c] == player)
+                InitializeGame();
+            }
+            kubus.Invalidate();
+        }
+    }
+    private void UpdatehoeveelLabels()
+    {
+        roodLabel.Text = $"Er zijn nu {hoeveelStenen(1)} stenen van rood";
+        blauwLabel.Text = $"Er zijn nu {hoeveelStenen(2)} stenen van blauw";
+    }
+    private int hoeveelStenen(int player)
+    {
+        if (board == null)
+        {
+            return 0;
+        }
+        int hoeveel = 0;
+        for (int i = 0; i < board.GetLength(0); i++)
+        {
+            for (int j = 0; j < board.GetLength(1); j++)
+            {
+                if (board[i, j] == player)
                 {
-                    // Tegenstander zn steen gevonden, check nu de friendly stenen in dezelfde richtong
-                    r += i;
-                    c += j;
-                    while (r >= 0 && r < _size && c >= 0 && c < _size && _board[r, c] == player)
-                    {
-                        r += i;
-                        c += j;
-                    }
+                    hoeveel++;
+                }
+            }
+        }
+        return hoeveel;
+    }
+    private bool goeiezet(int x, int y)
+    {
+        int boardX = x / (gridsize / (grid10x10 ? 10 : (grid8x8 ? 8 : (grid6x6 ? 6 : 4))));
+        int boardY = y / (gridsize / (grid10x10 ? 10 : (grid8x8 ? 8 : (grid6x6 ? 6 : 4))));
 
-                    if (r >= 0 && r < _size && c >= 0 && c < _size && _board[r, c] == -player)
+        if (boardX >= 0 && boardX < board.GetLength(0) && boardY >= 0 && boardY < board.GetLength(1) && board[boardX, boardY] == 0)
+        {
+            for (int i = -1; i <= 1; i++)
+            {
+                for (int j = -1; j <= 1; j++)
+                {
+                    int newX = boardX + i;
+                    int newY = boardY + j;
+
+                    if (newX >= 0 && newX < board.GetLength(0) && newY >= 0 && newY < board.GetLength(1))
                     {
-                        // friendly steen gevonden, dus je kan deze move maken
-                        return true;
+                        if (board[newX, newY] == (aanzet == 1 ? 2 : 1))
+                        {
+                            while (true)
+                            {
+                                newX += i;
+                                newY += j;
+
+                                if (newX < 0 || newX >= board.GetLength(0) || newY < 0 || newY >= board.GetLength(1))
+                                    break;
+
+                                if (board[newX, newY] == 0)
+                                    break;
+
+                                if (board[newX, newY] == aanzet)
+                                    return true;
+                            }
+                        }
                     }
                 }
             }
         }
-
         return false;
     }
-
-    public void MakeMove(int row, int col, int player)
+    private void zet(int x, int y)
     {
-        _board[row, col] = player;
+        board[x, y] = aanzet;
 
-        // flip tegenstanders stenen in de tegengestelde richting
         for (int i = -1; i <= 1; i++)
         {
             for (int j = -1; j <= 1; j++)
             {
                 if (i == 0 && j == 0)
-                {
                     continue;
-                }
 
-                int r = row + i;
-                int c = col + j;
-                if (r >= 0 && r < _size && c >= 0 && c < _size && _board[r, c] == -player)
+                int newX = x + i;
+                int newY = y + j;
+
+                if (newX >= 0 && newX < board.GetLength(0) && newY >= 0 && newY < board.GetLength(1))
                 {
-                    // tegenstander steen gevonden, check voor friendly stenen in dezelfde richting
-                    r += i;
-                    c += j;
-                    while (r >= 0 && r < _size && c >= 0 && c < _size && _board[r, c] == -player)
+                    if (board[newX, newY] == (aanzet == 1 ? 2 : 1))
                     {
-                        r += i;
-                        c += j;
-                    }
-
-                    if (r >= 0 && r < _size && c >= 0 && c < _size && _board[r, c] == player)
-                    {
-                        // friendly piece gevonden, flip tegenstanders stenen tusssenin
-                        r -= i;
-                        c -= j;
-                        while (_board[r, c] == -player)
+                        while (true)
                         {
-                            _board[r, c] = player;
-                            r -= i;
-                            c -= j;
+                            newX += i;
+                            newY += j;
+                            if (newX < 0 || newX >= board.GetLength(0) || newY < 0 || newY >= board.GetLength(1))
+                                break;
+
+                            if (board[newX, newY] == 0)
+                                break;
+
+                            if (board[newX, newY] == aanzet)
+                            {
+                                int flipX = x + i;
+                                int flipY = y + j;
+
+                                while (flipX != newX || flipY != newY)
+                                {
+                                    board[flipX, flipY] = aanzet;
+                                    flipX += i;
+                                    flipY += j;
+                                }
+                                break;
+                            }
                         }
                     }
                 }
             }
         }
     }
-
-    public int GetScore(int player)
+    private (bool, string, int) IsGameOver()
     {
-        int score = 0;
-        for (int i = 0; i < _size; i++)
+        int hoeveelrood = hoeveelStenen(1);
+        int hoeveelblauw = hoeveelStenen(2);
+
+        if (hoeveelrood + hoeveelblauw == board.GetLength(0) * board.GetLength(1))
         {
-            for (int j = 0; j < _size; j++)
+            if (hoeveelrood > hoeveelblauw)
             {
-                if (_board[i, j] == player)
+                return (true, "rood", hoeveelrood - hoeveelblauw);
+            }
+            else if (hoeveelblauw > hoeveelrood)
+            {
+                return (true, "blauw", hoeveelblauw - hoeveelrood);
+            }
+            else
+            {
+                return (true, "gelijkspel", 0);
+            }
+        }
+        bool geengoeiezetrood = true;
+        bool geengoeiezetblauw = true;
+
+        for (int i = 0; i < board.GetLength(0); i++)
+        {
+            for (int j = 0; j < board.GetLength(1); j++)
+            {
+                if (board[i, j] == 0 && goeiezet(i * 50, j * 50))
                 {
-                    score++;
+                    if (aanzet == 1)
+                    {
+                        geengoeiezetrood = false;
+                    }
+                    else
+                    {
+                        geengoeiezetblauw = false;
+                    }
                 }
             }
         }
-        return score;
+        if (geengoeiezetrood && geengoeiezetblauw)
+        {
+            if (hoeveelrood > hoeveelblauw)
+            {
+                return (true, "rood", hoeveelrood - hoeveelblauw);
+            }
+            else if (hoeveelblauw > hoeveelrood)
+            {
+                return (true, "blauw", hoeveelblauw - hoeveelrood);
+            }
+            else
+            {
+                return (true, "gelijkspel", 0);
+            }
+        }
+        return (false, "", 0);
     }
-
-    public bool IsGameOver()
+    protected override void OnMouseClick(MouseEventArgs e)
     {
-        for (int i = 0; i < _size; i++)
-        {
-            for (int j = 0; j < _size; j++)
-            {
-                if (_board[i, j] == 0)
-                {
-                    return false;
-                }
-            }
-        }
-        return true;  
+        base.OnMouseClick(e);
+        hetspelzet(e.X - 50, e.Y - 200);
+    }
+    static void Main()
+    {
+        Application.Run(new ReversiGame());
     }
 }
